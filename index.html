@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shape Counting Puzzle</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #f5f5f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2.5rem 2rem;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 2rem;
+      letter-spacing: -0.3px;
+    }
+
+    .question-row {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .q-red   { color: #c0392b; }
+    .q-blue  { color: #1a6ebd; }
+    .q-green { color: #2e7d32; }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #d0d0cc;
+      border-radius: 8px;
+      background: #fafaf8;
+      color: #1a1a1a;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #1a6ebd;
+      box-shadow: 0 0 0 3px rgba(26,110,189,0.15);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      background: #1a1a1a;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    button:hover  { background: #333333; }
+    button:active { transform: scale(0.98); }
+
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: 10px;
+      font-size: 15px;
+      line-height: 1.7;
+      display: none;
+    }
+
+    .result-error {
+      background: #fdf0f0;
+      border: 1px solid #e8a0a0;
+      color: #8b1a1a;
+    }
+
+    .result-success {
+      background: #eaf3de;
+      border: 1px solid #7cb55a;
+      color: #1e4d0f;
+    }
+
+    .congrats-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .coords {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.9;
+      background: rgba(255,255,255,0.6);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      word-break: break-word;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 1.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Can you count the shapes?</h1>
+
+    <div class="question-row">
+      <label class="q-red" for="circles">How many circles do you see?</label>
+      <input type="number" id="circles" placeholder="Enter your answer" min="0" />
+    </div>
+
+    <div class="question-row">
+      <label class="q-blue" for="diamonds">How many diamonds do you see?</label>
+      <input type="number" id="diamonds" placeholder="Enter your answer" min="0" />
+    </div>
+
+    <div class="question-row">
+      <label class="q-green" for="squares">How many squares do you see?</label>
+      <input type="number" id="squares" placeholder="Enter your answer" min="0" />
+    </div>
+
+    <button onclick="checkAnswers()">Check answers</button>
+
+    <div class="result-box result-error" id="error-box">
+      ❌ One or more answers are incorrect. Try again!
+    </div>
+
+    <div class="result-box result-success" id="success-box">
+      <p class="congrats-title">🎉 Congratulations!</p>
+      <p>Your coordinates for the month of July are:</p>
+      <div class="coords">1, 2, 5, 6, 9, 11, 14, 15, 16, 20, 27, 31, 33</div>
+      <div class="coords">W: 1, 4, 5, 7, 8, 14, 16, 17, 18, 19, 21, 22, 23, 27, 32</div>
+    </div>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      var c = parseInt(document.getElementById('circles').value);
+      var d = parseInt(document.getElementById('diamonds').value);
+      var s = parseInt(document.getElementById('squares').value);
+      var err  = document.getElementById('error-box');
+      var succ = document.getElementById('success-box');
+      err.style.display  = 'none';
+      succ.style.display = 'none';
+      if (c === 24 && d === 18 && s === 20) {
+        succ.style.display = 'block';
+      } else {
+        err.style.display = 'block';
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkAnswers();
+    });
+  </script>
+
+</body>
+</html>
